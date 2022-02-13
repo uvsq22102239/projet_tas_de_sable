@@ -19,7 +19,7 @@
 
 import tkinter as tk
 from tkinter import Menu #, Menubutton => si on veut faire des sous-menu de boutons donc à voir à la fin
-
+import random as rd
 
 
 #####################################################
@@ -58,10 +58,12 @@ def creationGrille(nb_cases):
 
     return
 
-def config_aleatoire(nb_cases):
-    """fonction qui met les grains de sable aléatoirement : à revoir
-     je l'ai faite provisoirement pour le bouton configuration aletoire"""
-    
+def config_aleatoire(valeur_case):
+    """Fonction qui assimile à chaque case une valeur aléatoire
+     de grains de sable jusqu'à 3 (compris)"""
+    for valeur_case in range(NB_CASES_GRILLE):
+        valeur_case = rd.randint(0, 4)
+    return valeur_case
 
 
 #####################################################
@@ -130,6 +132,12 @@ def creationCase(ligne, colonne):
 
     return
 
+valeur_case = 0
+liste_coordonnées = 0
+for i in range(NB_CASES_GRILLE):
+    for j in range(NB_CASES_GRILLE):
+        coordonneesCase(i, j)
+        case = liste_coordonnées, valeur_case
 
 for i in range(NB_CASES_GRILLE):
     for j in range(NB_CASES_GRILLE):
