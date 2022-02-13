@@ -18,6 +18,7 @@
 #####################################################
 
 import tkinter as tk
+from tkinter import Menu #, Menubutton => si on veut faire des sous-menu de boutons donc à voir à la fin
 
 
 
@@ -57,6 +58,11 @@ def creationGrille(nb_cases):
 
     return
 
+def config_aleatoire(nb_cases):
+    """fonction qui met les grains de sable aléatoirement : à revoir
+     je l'ai faite provisoirement pour le bouton configuration aletoire"""
+    
+
 
 #####################################################
 # Boucle principale
@@ -77,8 +83,14 @@ canevas = tk.Canvas(racine, height=HAUTEUR_CANEVAS, width=LARGEUR_CANEVAS, bg="w
 creationGrille(NB_CASES_GRILLE)
 
 
-##### Boutons
-bouton_configuration_aleatoire = tk.Label(racine, text="Configuration aléatoire", bg="grey")
+##### Boutons et menu
+mon_menu = Menu(racine)
+racine.config(menu=mon_menu)
+
+actions_menu = Menu(mon_menu)
+mon_menu.add_cascade(label="Actions/Options", menu = actions_menu)
+actions_menu.add_command(label="Configuration aléatoire", command = config_aleatoire)
+
 
 
 ##### Cases grille
@@ -88,11 +100,7 @@ bouton_configuration_aleatoire = tk.Label(racine, text="Configuration aléatoire
 #####################################################
 # Placement des widgets
 
-
 canevas.grid(column=1, row=0)
-
-bouton_configuration_aleatoire.grid(column=0, row=0)
-
 
 #####################################################
 # Gestion des évenements liés aux widgets
