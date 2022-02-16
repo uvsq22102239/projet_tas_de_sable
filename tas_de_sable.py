@@ -88,7 +88,7 @@ def creationCase(ligne, colonne):
     return
 
 ### il faudra à la fin remplacer la couleur par défaut "red" par la couleur noire ("black")
-### car le rouge sert à visualiser si le code fonctionne
+### car le rouge sert à visualiser si le code fonctionne correctement
 
 
 
