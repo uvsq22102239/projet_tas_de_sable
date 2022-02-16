@@ -61,12 +61,16 @@ def creationGrille(nb_cases):
 
     return
 
-def config_aleatoire(valeur_case):
+def configAleatoire(matrice):
     """Fonction qui assimile à chaque case une valeur aléatoire
      de grains de sable jusqu'à 3 (compris)"""
-    for valeur_case in range(NB_CASES_GRILLE):
-        valeur_case = rd.randint(0, 4)
-    return valeur_case
+
+
+    for i in range(len(matrice)):
+        for j in range(len(matrice)):
+            matrice[i][j] = rd.randint(0, 3)
+            
+    return matrice
 
 
 #####################################################
@@ -94,7 +98,7 @@ racine.config(menu=mon_menu)
 
 actions_menu = Menu(mon_menu)
 mon_menu.add_cascade(label="Actions/Options", menu = actions_menu)
-actions_menu.add_command(label="Configuration aléatoire", command = config_aleatoire)
+actions_menu.add_command(label="Configuration aléatoire", command = configAleatoire)
 
 
 # /!\ Pas Label mais Button
@@ -136,12 +140,6 @@ def creationCase(ligne, colonne):
 
     return
 
-valeur_case = 0
-liste_coordonnées = 0
-for i in range(NB_CASES_GRILLE):
-    for j in range(NB_CASES_GRILLE):
-        coordonneesCase(i, j)
-        case = liste_coordonnées, valeur_case
 
 #for i in range(NB_CASES_GRILLE):
     #for j in range(NB_CASES_GRILLE):
