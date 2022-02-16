@@ -161,6 +161,7 @@ def configAleatoire(matrice):
             matrice[i][j] = rd.randint(0, 3)
             
     return matrice
+    
 
 
 #####################################################
