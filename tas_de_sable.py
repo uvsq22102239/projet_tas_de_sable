@@ -18,6 +18,7 @@
 #####################################################
 
 import tkinter as tk
+from unittest import case
 
 
 
@@ -35,7 +36,9 @@ NB_CASES_GRILLE = 100
 # Définition des variables globales
 #####################################################
 
+global case
 
+global configuration_courante
 
 #####################################################
 # Définition des fonctions
@@ -84,6 +87,69 @@ def creationCase(ligne, colonne):
 
     return
 
+### il faudra à la fin remplacer la couleur par défaut "red" par la couleur noire ("black")
+### car le rouge sert à visualiser si le code fonctionne
+
+
+
+def creationConfiguration(taille):
+    """ Créer une matrice carrée nulle de taille choisie par l'utilisateur"""
+
+    ligne = []
+    matrice = []
+
+    for i in range(taille):
+        ligne.append(0)
+
+    for j in range(taille):
+        matrice.append(ligne)
+
+    return matrice
+
+
+
+### Fonction qui remplace tous les 0 de la matrice par un nombre aléatoire ("configurationAleatoire")
+
+
+
+def couleurCases(matrice):
+    """ Colorie toutes les cases en fonction de leur nombre de grain de sable"""
+
+
+    for i in range(len(matrice)):
+        for j in range(len(matrice)):
+            if matrice[i][j] == 0:
+                canevas.itemconfigure(case, fill="white")
+            elif matrice[i][j] == 1:
+                canevas.itemconfigure(case, fill="blanched almond")
+            elif matrice[i][j] == 2:
+                canevas.itemconfigure(case, fill="NavajoWhite2")
+            elif matrice[i][j] == 3:
+                canevas.itemconfigure(case, fill="tan1")
+            elif matrice[i][j] == 4:
+                canevas.itemconfigure(case, fill="sienna3")
+            elif matrice[i][j] == 5:
+                canevas.itemconfigure(case, fill="salmon4")
+            elif matrice[i][j] == 6:
+                canevas.itemconfigure(case, fill="sienna4")
+            elif matrice[i][j] == 7:
+                canevas.itemconfigure(case, fill="saddle brown")
+            elif matrice[i][j] == 8:
+                canevas.itemconfigure(case, fill="maroon")
+            else :
+                canevas.itemconfigure(case, fill="black")
+
+
+
+def initialisationConfiguration(matrice):
+    """ Chaque élément de la matrice est remplacé par un zéro : on obtient une matrice nulle"""
+
+    for i in range(len(matrice)):
+        for j in range(len(matrice)):
+            matrice[i][j] = 0
+
+    return matrice
+
 
 #####################################################
 # Boucle principale
@@ -108,12 +174,9 @@ for i in range(NB_CASES_GRILLE):
 
 
 
-
 ##### Boutons
 bouton_configuration_aleatoire = tk.Label(racine, text="Configuration aléatoire", bg="grey")
 
-
-##### Cases grille
 
 
 
@@ -126,8 +189,22 @@ canevas.grid(column=1, row=0)
 bouton_configuration_aleatoire.grid(column=0, row=0)
 
 
+
+#####################################################
+# Gestion de la configuration courante 
+
+
+configuration_courante = creationConfiguration(NB_CASES_GRILLE)
+
+#configurationAleatoire(configuration_courante)
+
+
+
 #####################################################
 # Gestion des évenements liés aux widgets
+
+
+###### lier la fonction "configurationAleatoire" avec le bouton "Configuration Aleatoire"
 
 
 
