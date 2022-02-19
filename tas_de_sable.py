@@ -112,6 +112,19 @@ def creationConfiguration(taille):
 
 
 
+
+def initialisationConfiguration(matrice):
+    """ Chaque élément de la matrice est remplacé par un zéro : on obtient une matrice nulle"""
+
+    for i in range(len(matrice)):
+        for j in range(len(matrice)):
+            matrice[i][j] = 0
+
+    return matrice
+
+
+
+
 def couleurCases(matrice):
     """ Colorie toutes les cases en fonction de leur nombre de grain de sable"""
 
@@ -139,17 +152,10 @@ def couleurCases(matrice):
             else :
                 canevas.itemconfigure(case, fill="black")
 
+    return
 
 
 
-def initialisationConfiguration(matrice):
-    """ Chaque élément de la matrice est remplacé par un zéro : on obtient une matrice nulle"""
-
-    for i in range(len(matrice)):
-        for j in range(len(matrice)):
-            matrice[i][j] = 0
-
-    return matrice
 
 
 #####################################################
@@ -176,7 +182,8 @@ for i in range(NB_CASES_GRILLE):
 
 
 ##### Boutons
-bouton_configuration_aleatoire = tk.Label(racine, text="Configuration aléatoire", bg="grey")
+bouton_configuration_aleatoire = tk.Button(racine, text="Configuration aléatoire", bg="grey")
+bouton_reinitialisation = tk.Button(racine, text="Réinitialiser", bg="grey")
 
 
 
@@ -188,6 +195,7 @@ bouton_configuration_aleatoire = tk.Label(racine, text="Configuration aléatoire
 canevas.grid(column=1, row=0)
 
 bouton_configuration_aleatoire.grid(column=0, row=0)
+bouton_reinitialisation.grid(column=0, row=1, rowspan=2)
 
 
 
@@ -197,7 +205,7 @@ bouton_configuration_aleatoire.grid(column=0, row=0)
 
 configuration_courante = creationConfiguration(NB_CASES_GRILLE)
 
-#configurationAleatoire(configuration_courante)
+#configuration_courante = configurationAleatoire(configuration_courante)
 
 
 
