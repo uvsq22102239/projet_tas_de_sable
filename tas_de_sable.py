@@ -151,21 +151,6 @@ def initialisationConfiguration(matrice):
 
     return matrice
 
-<<<<<<< HEAD
-=======
-def configAleatoire(matrice):
-    """Fonction qui assimile à chaque case une valeur aléatoire
-     de grains de sable jusqu'à 3 (compris)"""
-
-
-    for i in range(len(matrice)):
-        for j in range(len(matrice)):
-            matrice[i][j] = rd.randint(0, 3)
-            
-    return matrice
-    
-
->>>>>>> 5454ed96fc5f44c1e9974d583a567e1345d100c4
 
 #####################################################
 # Boucle principale
