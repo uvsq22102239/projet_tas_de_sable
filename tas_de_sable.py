@@ -19,6 +19,7 @@
 
 import tkinter as tk
 from unittest import case
+import random as rd
 
 
 
@@ -110,7 +111,16 @@ def creationConfiguration(taille):
 
 ### Fonction qui remplace tous les 0 de la matrice par un nombre aléatoire ("configurationAleatoire")
 
+def configAleatoire(matrice):
+    """Fonction qui assimile à chaque case une valeur aléatoire
+     de grains de sable jusqu'à 3 (compris)"""
 
+
+    for i in range(len(matrice)):
+        for j in range(len(matrice)):
+            matrice[i][j] = rd.randint(0, 3)
+            
+    return matrice
 
 
 def initialisationConfiguration(matrice):
