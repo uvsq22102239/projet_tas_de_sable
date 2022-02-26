@@ -81,66 +81,14 @@ def coordonneesCase(ligne, colonne):
 
 
 
-def creationCase(ligne, colonne):
-    """ Créer un carré correspondant à une case en fonction de son placement dans la grille """
-    
-    canevas.create_rectangle(coordonneesCase(ligne, colonne), fill="red")
-
-    return
-
-### il faudra à la fin remplacer la couleur par défaut "red" par la couleur noire ("black")
-### car le rouge sert à visualiser si le code fonctionne correctement
-
-
-
-def creationConfiguration(taille):
-    """ Créer une matrice carrée nulle de taille choisie par l'utilisateur"""
-
-    ligne = []
-    matrice = []
-
-    for i in range(taille):
-        ligne.append(0)
-
-    for j in range(taille):
-        matrice.append(ligne)
-
-    return matrice
-
-
-
-### Fonction qui remplace tous les 0 de la matrice par un nombre aléatoire ("configurationAleatoire")
-
-def configAleatoire(matrice):
-    """Fonction qui assimile à chaque case une valeur aléatoire
-     de grains de sable jusqu'à 3 (compris)"""
-
-
-    for i in range(len(matrice)):
-        for j in range(len(matrice)):
-            matrice[i][j] = rd.randint(0, 3)
-            
-    return matrice
-
-
-def initialisationConfiguration(matrice):
-    """ Chaque élément de la matrice est remplacé par un zéro : on obtient une matrice nulle"""
-
-    for i in range(len(matrice)):
-        for j in range(len(matrice)):
-            matrice[i][j] = 0
-
-    return matrice
-
-
-
 
 def couleurCases(matrice):
-    """ Colorie toutes les cases en fonction de leur nombre de grain de sable"""
+    """ Colorie toutes les cases en fonction de leur nombre de grains de sable"""
 
 
     for i in range(len(matrice)):
         for j in range(len(matrice)):
+            case = canevas.create_rectangle(coordonneesCase(i, j), fill="red")
             if matrice[i][j] == 0:
                 canevas.itemconfigure(case, fill="white")
             elif matrice[i][j] == 1:
@@ -166,6 +114,58 @@ def couleurCases(matrice):
 
 
 
+def initialisationConfiguration(taille):
+    """ Créer une matrice carrée nulle de taille choisie par l'utilisateur"""
+
+    global configuration_courante
+    matrice=[]
+
+    for i in range(taille):
+        l=[]
+        for j in range(taille):
+            l.append(0)
+        matrice.append(l)
+
+
+    configuration_courante = matrice
+    couleurCases(configuration_courante)
+
+
+    return configuration_courante
+
+
+
+
+def configurationAleatoire(taille):
+    """Fonction qui assimile à chaque case une valeur aléatoire
+     de grains de sable jusqu'à 3 (compris)"""
+
+    global configuration_courante
+    matrice = initialisationConfiguration(taille)
+
+    for i in range(taille):
+        for j in range(taille):
+            matrice[i][j] = rd.randint(0, 3)
+
+    configuration_courante = matrice
+    couleurCases(configuration_courante)
+
+    return configuration_courante
+
+
+#def initialisationConfiguration(matrice):
+#    """ Chaque élément de la matrice est remplacé par un zéro : on obtient une matrice nulle"""
+
+#    for i in range(len(matrice)):
+#        for j in range(len(matrice)):
+#            matrice[i][j] = 0
+
+#    return matrice
+
+
+
+
+
 
 
 #####################################################
@@ -185,15 +185,13 @@ canevas = tk.Canvas(racine, height=HAUTEUR_CANEVAS, width=LARGEUR_CANEVAS, bg="w
 
 creationGrille(NB_CASES_GRILLE)
 
-for i in range(NB_CASES_GRILLE):
-    for j in range(NB_CASES_GRILLE):
-        creationCase(i, j)
+
 
 
 
 ##### Boutons
-bouton_configuration_aleatoire = tk.Button(racine, text="Configuration aléatoire", bg="grey")
-bouton_reinitialisation = tk.Button(racine, text="Réinitialiser", bg="grey")
+bouton_configuration_aleatoire = tk.Button(racine, text="Configuration aléatoire", bg="grey", command=configurationAleatoire(NB_CASES_GRILLE))
+bouton_reinitialisation = tk.Button(racine, text="Réinitialiser", bg="grey", command=initialisationConfiguration(NB_CASES_GRILLE))
 
 
 
@@ -202,7 +200,7 @@ bouton_reinitialisation = tk.Button(racine, text="Réinitialiser", bg="grey")
 # Placement des widgets
 
 
-canevas.grid(column=1, row=0)
+canevas.grid(column=1, row=0, rowspan=5)
 
 bouton_configuration_aleatoire.grid(column=0, row=0)
 bouton_reinitialisation.grid(column=0, row=1, rowspan=2)
@@ -213,9 +211,10 @@ bouton_reinitialisation.grid(column=0, row=1, rowspan=2)
 # Gestion de la configuration courante 
 
 
-configuration_courante = creationConfiguration(NB_CASES_GRILLE)
+configuration_courante = configurationAleatoire(NB_CASES_GRILLE)
+configurationAleatoire(NB_CASES_GRILLE)
 
-#configuration_courante = configurationAleatoire(configuration_courante)
+
 
 
 
@@ -224,7 +223,6 @@ configuration_courante = creationConfiguration(NB_CASES_GRILLE)
 
 
 ###### lier la fonction "configurationAleatoire" avec le bouton "Configuration Aleatoire"
-
 
 
 
