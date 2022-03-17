@@ -20,6 +20,7 @@
 import tkinter as tk
 from unittest import case
 import random as rd
+from functools import partial
 
 
 
@@ -190,8 +191,8 @@ creationGrille(NB_CASES_GRILLE)
 
 
 ##### Boutons
-bouton_configuration_aleatoire = tk.Button(racine, text="Configuration aléatoire", bg="grey", command=configurationAleatoire(NB_CASES_GRILLE))
-bouton_reinitialisation = tk.Button(racine, text="Réinitialiser", bg="grey", command=initialisationConfiguration(NB_CASES_GRILLE))
+bouton_configuration_aleatoire = tk.Button(racine, text="Configuration aléatoire", bg="grey", command=partial(configurationAleatoire, NB_CASES_GRILLE))
+bouton_reinitialisation = tk.Button(racine, text="Réinitialiser", bg="grey", command=partial(initialisationConfiguration, NB_CASES_GRILLE))
 
 
 
