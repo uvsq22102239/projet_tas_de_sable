@@ -115,6 +115,7 @@ def couleurCases(matrice):
 
 
 
+
 def initialisationConfiguration(taille):
     """ Créer une matrice carrée nulle de taille choisie par l'utilisateur"""
 
@@ -146,7 +147,7 @@ def configurationAleatoire(taille):
 
     for i in range(taille):
         for j in range(taille):
-            matrice[i][j] = rd.randint(0, 3)
+            matrice[i][j] = rd.randint(0, 10)
 
     configuration_courante = matrice
     couleurCases(configuration_courante)
@@ -154,17 +155,98 @@ def configurationAleatoire(taille):
     return configuration_courante
 
 
-#def initialisationConfiguration(matrice):
-#    """ Chaque élément de la matrice est remplacé par un zéro : on obtient une matrice nulle"""
-
-#    for i in range(len(matrice)):
-#        for j in range(len(matrice)):
-#            matrice[i][j] = 0
-
-#    return matrice
 
 
+def ecoulementSable(matrice):
+    """Modifie la matrice pour simuler l'écoulement du tas de sable"""
 
+    cpt = 0
+    liste_cases_instables = []
+
+    for i in range(len(matrice)):           # Vérifie s'il y a des cases instable (et les compte)
+        for j in range(len(matrice)):
+            if matrice[i][j] >= 4 :
+                cpt += 1
+    
+    if cpt != 0:                            # S'il y a une case instable, alors la matrice sera modifiée
+        for i in range(len(matrice)):           # On parcourt la matrice pour savoir la position des cases instables
+            for j in range(len(matrice)):
+                if matrice[i][j] >= 4:          # S'il s'agit d'une case instable
+                    liste_cases_instables.append([i,j])         #Alors on note ses coordonnées dans une liste (pour ne pas les oublier)
+                    if (i==0 and j==0) or (i==0 and (j==len(matrice)-1)) or ((i==len(matrice)-1) and j==0) or ((i==len(matrice)-1) and (j==len(matrice)-1)):     # Si la case instable est un coin
+                        matrice[i][j] -= 2              # Les coins donnent 2 grains de sable à leurs voisins
+                    elif (i==0 and 0<j<(len(matrice)-1)) or ((i==len(matrice)-1) and 0<j<(len(matrice)-1)) or (0<i<(len(matrice)-1) and j==0) or (0<i<(len(matrice)-1) and j==(len(matrice)-1)):        #Si la case est un bord
+                        matrice[i][j] -= 3
+                    else :
+                        matrice[i][j] -= 4
+        for k in liste_cases_instables:
+            ajoutSableVoisins(k[0], k[1], configuration_courante)
+
+    couleurCases(configuration_courante)
+#   ecoulementSable.
+    
+    
+
+
+def ajoutSableVoisins(i,j, matrice):
+        """ Fonction utilisée pour l'écoulement du sable, qui prend en argument les coordonnées de la 
+        case instable et ajoute 2, 3 ou 4 grains de sable à ses voisins"""
+
+
+        if i==0 and j==0:
+            matrice[i+1][j] += 1
+            matrice[i][j+1] += 1
+        elif i==0 and (j==len(matrice)-1):
+            matrice[i+1][j] += 1
+            matrice[i][j-1] += 1
+        elif (i==len(matrice)-1) and j==0:
+            matrice[i-1][j] += 1
+            matrice[i][j+1] += 1
+        elif (i==len(matrice)-1) and (j==len(matrice)-1):
+            matrice[i-1][j] += 1
+            matrice[i][j-1] += 1
+        elif i==0 and 0<j<(len(matrice)-1):
+            matrice[i][j-1] += 1
+            matrice[i][j+1] += 1
+            matrice[i+1][j] += 1
+        elif (i==len(matrice)-1) and 0<j<(len(matrice)-1):
+            matrice[i][j-1] += 1
+            matrice[i][j+1] += 1
+            matrice[i-1][j] += 1
+        elif (0<i<(len(matrice)-1) and j==0):
+            matrice[i-1][j] += 1
+            matrice[i+1][j] += 1
+            matrice[i][j+1] += 1
+        elif 0<i<(len(matrice)-1) and j==(len(matrice)-1):
+            matrice[i-1][j] += 1
+            matrice[i+1][j] += 1
+            matrice[i][j-1] += 1
+        else :
+            matrice[i][j-1] += 1
+            matrice[i][j+1] += 1
+            matrice[i-1][j] += 1
+            matrice[i+1][j] += 1
+
+
+
+
+def pileCentree(taille, N):
+    """ Créér une configuration pile centrée"""
+
+    matrice = []
+    for i in range(taille):
+        l=[]
+        for j in range(taille):
+            l.append(0)
+        matrice.append(l)
+
+    coord = taille // 2
+    matrice[coord][coord] = N
+
+    configuration_courante = matrice
+    couleurCases(configuration_courante)
+
+    return configuration_courante
 
 
 
@@ -193,8 +275,9 @@ creationGrille(NB_CASES_GRILLE)
 ##### Boutons
 bouton_configuration_aleatoire = tk.Button(racine, text="Configuration aléatoire", bg="grey", command=partial(configurationAleatoire, NB_CASES_GRILLE))
 bouton_reinitialisation = tk.Button(racine, text="Réinitialiser", bg="grey", command=partial(initialisationConfiguration, NB_CASES_GRILLE))
-
-
+bouton_ecoulement = tk.Button(racine, text="Ecoulement du sable", bg="grey", command=lambda :ecoulementSable(configuration_courante))
+slider_pile_centree = tk.Scale(racine, from_=0, to=1000)
+bouton_pile_centree = tk.Button(racine, bg="grey", text="Pile centrée", command=lambda: pileCentree(NB_CASES_GRILLE, slider_pile_centree.get()))
 
 
 #####################################################
@@ -204,7 +287,10 @@ bouton_reinitialisation = tk.Button(racine, text="Réinitialiser", bg="grey", co
 canevas.grid(column=1, row=0, rowspan=5)
 
 bouton_configuration_aleatoire.grid(column=0, row=0)
-bouton_reinitialisation.grid(column=0, row=1, rowspan=2)
+bouton_reinitialisation.grid(column=0, row=1)
+bouton_ecoulement.grid(column=0, row=2)
+slider_pile_centree.grid(column=0, row=3)
+bouton_pile_centree.grid(column=0, row=4)
 
 
 
@@ -222,8 +308,6 @@ configurationAleatoire(NB_CASES_GRILLE)
 #####################################################
 # Gestion des évenements liés aux widgets
 
-
-###### lier la fonction "configurationAleatoire" avec le bouton "Configuration Aleatoire"
 
 
 
