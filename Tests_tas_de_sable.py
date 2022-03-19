@@ -147,7 +147,7 @@ def configurationAleatoire(taille):
 
     for i in range(taille):
         for j in range(taille):
-            matrice[i][j] = rd.randint(0, 10)
+            matrice[i][j] = rd.randint(0, 3)
 
     configuration_courante = matrice
     couleurCases(configuration_courante)
@@ -183,7 +183,8 @@ def ecoulementSable(matrice):
             ajoutSableVoisins(k[0], k[1], configuration_courante)
 
     couleurCases(configuration_courante)
-#   ecoulementSable.
+    canevas.after(1000, ecoulementSable(configuration_courante))
+
     
     
 
